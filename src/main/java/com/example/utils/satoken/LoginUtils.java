@@ -21,32 +21,32 @@ public class LoginUtils {
 //    private static final AuthService AUTH_SERVICE = SpringContextHolder.getBean(AuthService.class);
 //
 //    private static final FileService FILE_SERVICE = SpringContextHolder.getBean(FileService.class);
-//
-//    /**
-//     * 用户登录
-//     *
-//     * @param loginUser 登录用户信息
-//     */
-//    public static void login(AuthLoginVo loginUser) {
-//        if (!StpUtil.isLogin()) {
-//            // 存入一份到缓存中
-//            SaHolder.getStorage()
-//                    .set(Constants.LOGIN_USER_KEY, loginUser);
-//            StpUtil.login(loginUser.getId());
-//            StpUtil.getSession().set(Constants.LOGIN_USER_KEY, loginUser);
-//        } else {
-//            // 如果重复登录，就需要验证当前登录账号和将要登录账号是否相同，不相同则挤掉原账号，确保一个浏览器会话只存有一个账户信息
-//            if (!Objects.equals(Long.parseLong((String) StpUtil.getLoginId()), loginUser.getId())) {
-//                StpUtil.logout();
-//                // 存入一份到缓存中
-//                SaHolder.getStorage()
-//                        .set(Constants.LOGIN_USER_KEY, loginUser);
-//                StpUtil.login(loginUser.getId());
-//                StpUtil.getSession().set(Constants.LOGIN_USER_KEY, loginUser);
-//            }
-//        }
-//    }
-//
+
+    /**
+     * 用户登录
+     *
+     * @param loginUser 登录用户信息
+     */
+    public static void login(AuthLoginVo loginUser) {
+        if (!StpUtil.isLogin()) {
+            // 存入一份到缓存中
+            SaHolder.getStorage()
+                    .set(Constants.LOGIN_USER_KEY, loginUser);
+            StpUtil.login(loginUser.getId());
+            StpUtil.getSession().set(Constants.LOGIN_USER_KEY, loginUser);
+        } else {
+            // 如果重复登录，就需要验证当前登录账号和将要登录账号是否相同，不相同则挤掉原账号，确保一个浏览器会话只存有一个账户信息
+            if (!Objects.equals(Long.parseLong((String) StpUtil.getLoginId()), loginUser.getId())) {
+                StpUtil.logout();
+                // 存入一份到缓存中
+                SaHolder.getStorage()
+                        .set(Constants.LOGIN_USER_KEY, loginUser);
+                StpUtil.login(loginUser.getId());
+                StpUtil.getSession().set(Constants.LOGIN_USER_KEY, loginUser);
+            }
+        }
+    }
+
 //    /**
 //     * 同步缓存中的用户登录信息
 //     */
