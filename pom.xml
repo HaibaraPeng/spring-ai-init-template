@@ -296,22 +296,22 @@
 <!--            <artifactId>mariadb-java-client</artifactId>-->
 <!--            <version>${mariadb.version}</version>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.mybatis</groupId>-->
-<!--            <artifactId>mybatis-spring</artifactId>-->
-<!--            <version>${mybatis.spring.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>mybatis-plus-boot-starter</artifactId>-->
-<!--            <version>${mybatis.plus.starter.version}</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>mybatis-spring</artifactId>-->
-<!--                    <groupId>org.mybatis</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis.spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.starter.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>mybatis-spring</artifactId>
+                    <groupId>org.mybatis</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.baomidou</groupId>-->
 <!--            <artifactId>mybatis-plus-annotation</artifactId>-->
@@ -322,11 +322,11 @@
 <!--            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>-->
 <!--            <version>${dynamic.datasource.starter.version}</version>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.shardingsphere</groupId>-->
-<!--            <artifactId>shardingsphere-jdbc</artifactId>-->
-<!--            <version>${shardingsphere.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc</artifactId>
+            <version>${shardingsphere.version}</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba</groupId>-->
 <!--            <artifactId>druid-spring-boot-3-starter</artifactId>-->
@@ -368,11 +368,11 @@
 <!--            <artifactId>commons-pool2</artifactId>-->
 <!--            <version>${commons.pool2.version}</version>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.commons</groupId>-->
-<!--            <artifactId>commons-collections4</artifactId>-->
-<!--            <version>${commons.collections4.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons.collections4.version}</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.apache.commons</groupId>-->
 <!--            <artifactId>commons-math3</artifactId>-->
@@ -396,36 +396,36 @@
 <!--            <version>${ok.io.version}</version>-->
 <!--        </dependency>-->
 
-<!--        &lt;!&ndash; FastJSON2 依赖配置 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.fastjson2</groupId>-->
-<!--            <artifactId>fastjson2</artifactId>-->
-<!--            <version>${fastjson2.version}</version>-->
-<!--        </dependency>-->
+        <!-- FastJSON2 依赖配置 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; 离线 IP 地址定位库 ip2region 依赖配置&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.lionsoul</groupId>-->
-<!--            <artifactId>ip2region</artifactId>-->
-<!--            <version>${ip2region.version}</version>-->
-<!--        </dependency>-->
+        <!-- 离线 IP 地址定位库 ip2region 依赖配置-->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>${ip2region.version}</version>
+        </dependency>
 
-<!--        &lt;!&ndash; Sa-Token 依赖配置（该初始化模板提供session+cookie和redis+token两种方式，此处依赖配置是redis+token，所以必须保证redis可用） &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>cn.dev33</groupId>-->
-<!--            <artifactId>sa-token-spring-boot3-starter</artifactId>-->
-<!--            <version>${sa.token.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>cn.dev33</groupId>-->
-<!--            <artifactId>sa-token-core</artifactId>-->
-<!--            <version>${sa.token.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>cn.dev33</groupId>-->
-<!--            <artifactId>sa-token-jwt</artifactId>-->
-<!--            <version>${sa.token.version}</version>-->
-<!--        </dependency>-->
+        <!-- Sa-Token 依赖配置（该初始化模板提供session+cookie和redis+token两种方式，此处依赖配置是redis+token，所以必须保证redis可用） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot3-starter</artifactId>
+            <version>${sa.token.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
+            <version>${sa.token.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-jwt</artifactId>
+            <version>${sa.token.version}</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>cn.dev33</groupId>-->
 <!--            <artifactId>sa-token-redis-jackson</artifactId>-->
