@@ -1,43 +1,43 @@
-## 服务概况 ---- 可自定义
-#server:
-#  # 类似http://127.0.0.1这样的格式，这里仅做一个记录
-#  domain: http://127.0.0.1
-#  # 项目端口
-#  port: 38080
-#  servlet:
-#    # 项目基础URI
-#    context-path: /api
-#  # 开启Http2，使其能够进行多路复用
-#  http2:
-#    enabled: true
-#  # 选择Undertow服务器配置
-#  undertow:
-#    # HTTP post内容的最大大小。当值为-1时，默认值为大小是无限的
-#    max-http-post-size: -1
-#    # Undertow的URI编码
-#    url-charset: UTF-8
-#    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
-#    # 每块buffer的空间大小,越小的空间被利用越充分
-#    buffer-size: 512
-#    # 是否分配的直接内存
-#    direct-buffers: true
-#    threads:
-#      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
-#      io: 16
-#      # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, Undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
-#      worker: 256
-#  # 选择Tomcat服务器配置
-#  tomcat:
-#    # Tomcat的URI编码
-#    uri-encoding: UTF-8
-#    # 连接数满后的排队数，默认为100
-#    accept-count: 1000
-#    threads:
-#      # Tomcat最大线程数，默认为200
-#      max: 800
-#      # Tomcat启动初始化的线程数，默认值10
-#      min-spare: 100
-#
+# 服务概况 ---- 可自定义
+server:
+  # 类似http://127.0.0.1这样的格式，这里仅做一个记录
+  domain: http://127.0.0.1
+  # 项目端口
+  port: 38080
+  servlet:
+    # 项目基础URI
+    context-path: /api
+  # 开启Http2，使其能够进行多路复用
+  http2:
+    enabled: true
+  # 选择Undertow服务器配置
+  undertow:
+    # HTTP post内容的最大大小。当值为-1时，默认值为大小是无限的
+    max-http-post-size: -1
+    # Undertow的URI编码
+    url-charset: UTF-8
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    # 每块buffer的空间大小,越小的空间被利用越充分
+    buffer-size: 512
+    # 是否分配的直接内存
+    direct-buffers: true
+    threads:
+      # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+      io: 16
+      # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, Undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+      worker: 256
+  # 选择Tomcat服务器配置
+  tomcat:
+    # Tomcat的URI编码
+    uri-encoding: UTF-8
+    # 连接数满后的排队数，默认为100
+    accept-count: 1000
+    threads:
+      # Tomcat最大线程数，默认为200
+      max: 800
+      # Tomcat启动初始化的线程数，默认值10
+      min-spare: 100
+
 ## Knife4j的增强配置，不需要增强可以不配
 #knife4j:
 #  # 是否打开Knife4j的增强配置
@@ -360,30 +360,30 @@
 # 业务缓存Redisson配置（这里的Redisson配置主要用来系统业务逻辑的缓存服务，要求Redis版本在7.0以上）
 # 如果同时开启单机版本和集群版本，只有单机版本生效
 redisson:
-#  # 线程池数量
-#  threads: 4
-#  # Netty线程池数量
-#  netty-threads: 8
+  #  # 线程池数量
+  #  threads: 4
+  #  # Netty线程池数量
+  #  netty-threads: 8
   # Redis单机版本
   single-server-config:
     # todo 是否启动单机Redis（Redisson）缓存（预先关闭）
     enable-single: false
-#    # 单机地址（一定要在redis协议下）
-#    address: redis://127.0.0.1:6379
-#    # 数据库索引
-#    database: 1
-#    # 密码（考虑是否需要密码）
-#    #password: 123456
-#    # 命令等待超时，单位：毫秒
-#    timeout: 3000
-#    # 发布和订阅连接池大小
-#    subscription-connection-pool-size: 25
-#    # 最小空闲连接数
-#    connection-minimum-idle-size: 8
-#    # 连接池大小
-#    connection-pool-size: 32
-#    # 连接空闲超时，单位：毫秒
-#    idle-connection-timeout: 10000
+  #    # 单机地址（一定要在redis协议下）
+  #    address: redis://127.0.0.1:6379
+  #    # 数据库索引
+  #    database: 1
+  #    # 密码（考虑是否需要密码）
+  #    #password: 123456
+  #    # 命令等待超时，单位：毫秒
+  #    timeout: 3000
+  #    # 发布和订阅连接池大小
+  #    subscription-connection-pool-size: 25
+  #    # 最小空闲连接数
+  #    connection-minimum-idle-size: 8
+  #    # 连接池大小
+  #    connection-pool-size: 32
+  #    # 连接空闲超时，单位：毫秒
+  #    idle-connection-timeout: 10000
   # Redis集群版本
   cluster-servers-config:
     # todo 是否启动集群Redis（Redisson）缓存（预先关闭）
@@ -656,11 +656,11 @@ redisson:
 #  # 非jwt形式的token风格：uuid 带有中划线的uuid（默认）；simple-uuid 不带有中划线的uuid；random-32 随机32位字符串；random-64 随机64位字符串；random-128 随机128位字符串；tik tik风格。
 #  token-style: tik
 #
-## 离线IP库配置
-#ip2region:
-#  # 数据加载方式
-#  load-type: memory
-#
+# 离线IP库配置
+ip2region:
+  # 数据加载方式
+  load-type: memory
+
 ## 敏感数据配置
 #sensitive:
 #  # 敏感词

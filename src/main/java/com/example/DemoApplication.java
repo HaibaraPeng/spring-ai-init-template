@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author Peng
  * @date 2025-09-24 21:52
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.example.**"})
 @MapperScan(basePackages = {"com.example.mapper","com.example.config.ai.spring.vector.mapper"})
 //@EsMapperScan(value = "top.sharehome.springbootinittemplate.elasticsearch.mapper")
 //@EnableScheduling
