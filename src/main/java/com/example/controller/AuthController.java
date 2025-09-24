@@ -1,6 +1,7 @@
 package com.example.controller;
 
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import com.example.common.base.R;
 import com.example.common.validate.PostGroup;
 import com.example.config.captcha.annotation.EnableCaptcha;
@@ -8,6 +9,7 @@ import com.example.config.log.annotation.ControllerLog;
 import com.example.config.log.enums.Operator;
 import com.example.model.dto.auth.AuthLoginDto;
 import com.example.model.vo.auth.AuthLoginVo;
+import com.example.service.AuthService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.validation.annotation.Validated;
@@ -22,11 +24,11 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @RequestMapping("/auth")
-//@SaCheckLogin
+@SaCheckLogin
 public class AuthController {
 
-//    @Resource
-//    private AuthService authService;
+    @Resource
+    private AuthService authService;
 
 //    /**
 //     * 注册
@@ -82,8 +84,10 @@ public class AuthController {
 //     */
 //    @PostMapping("/check/email/code")
 //    @ControllerLog(description = "用户通过邮箱验证找回密码", operator = Operator.OTHER)
-//    public R<String> checkEmailCode(@RequestBody @Validated({PostGroup.class}) AuthRetrievePasswordDto authRetrievePasswordDto) {
-//        if (!StringUtils.equals(authRetrievePasswordDto.getNewPassword(), authRetrievePasswordDto.getCheckNewPassword())) {
+//    public R<String> checkEmailCode(@RequestBody @Validated({PostGroup.class}) AuthRetrievePasswordDto
+//    authRetrievePasswordDto) {
+//        if (!StringUtils.equals(authRetrievePasswordDto.getNewPassword(), authRetrievePasswordDto
+//        .getCheckNewPassword())) {
 //            throw new CustomizeReturnException(ReturnCode.PASSWORD_AND_SECONDARY_PASSWORD_NOT_SAME);
 //        }
 //        authService.checkEmailCode(authRetrievePasswordDto);
@@ -98,7 +102,8 @@ public class AuthController {
 //     */
 //    @PostMapping("/email/code")
 //    @ControllerLog(description = "用户获取邮箱验证码", operator = Operator.QUERY)
-//    @RateLimit(time = 5, timeUnit = TimeUnit.MINUTES, rate = 1, permit = 1, scopeType = ScopeType.PERSONAL, message = "5分钟内不能重复获取邮箱验证码")
+//    @RateLimit(time = 5, timeUnit = TimeUnit.MINUTES, rate = 1, permit = 1, scopeType = ScopeType.PERSONAL, message
+//    = "5分钟内不能重复获取邮箱验证码")
 //    public R<String> getEmailCode(@RequestBody @Validated({PostGroup.class}) AuthEmailCodeDto authEmailCodeDto) {
 //        authService.getEmailCode(authEmailCodeDto);
 //        return R.ok("获取验证码成功，请前往邮箱查收");
