@@ -4,7 +4,14 @@ package com.example.utils.satoken;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.common.base.Constants;
+import com.example.common.base.ReturnCode;
+import com.example.config.bean.SpringContextHolder;
+import com.example.exception.customize.CustomizeReturnException;
+import com.example.model.entity.File;
+import com.example.model.entity.User;
 import com.example.model.vo.auth.AuthLoginVo;
+import com.example.service.AuthService;
+import com.example.service.FileService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -18,9 +25,9 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LoginUtils {
 
-//    private static final AuthService AUTH_SERVICE = SpringContextHolder.getBean(AuthService.class);
-//
-//    private static final FileService FILE_SERVICE = SpringContextHolder.getBean(FileService.class);
+    private static final AuthService AUTH_SERVICE = SpringContextHolder.getBean(AuthService.class);
+
+    private static final FileService FILE_SERVICE = SpringContextHolder.getBean(FileService.class);
 
     /**
      * 用户登录
@@ -47,27 +54,27 @@ public class LoginUtils {
         }
     }
 
-//    /**
-//     * 同步缓存中的用户登录信息
-//     */
-//    public static void syncLoginUser() {
-//        Long loginUserId = Long.valueOf((String) StpUtil.getLoginId());
-//        User userInDatabase = AUTH_SERVICE.getById(loginUserId);
-//        if (Objects.isNull(userInDatabase)) {
-//            StpUtil.logout(loginUserId);
-//            throw new CustomizeReturnException(ReturnCode.ACCESS_UNAUTHORIZED);
-//        }
-//        if (Objects.equals(userInDatabase.getState(), Constants.USER_DISABLE_STATE)) {
-//            throw new CustomizeReturnException(ReturnCode.USER_ACCOUNT_BANNED);
-//        }
-//        AuthLoginVo loginUser = new AuthLoginVo();
-//        BeanUtils.copyProperties(userInDatabase, loginUser);
-//        File avatarFile = FILE_SERVICE.getById(loginUser.getAvatarId());
-//        loginUser.setAvatar(Objects.isNull(avatarFile) ? null : avatarFile.getUrl());
-//        SaHolder.getStorage()
-//                .set(Constants.LOGIN_USER_KEY, loginUser);
-//        StpUtil.getSession().set(Constants.LOGIN_USER_KEY, loginUser);
-//    }
+    /**
+     * 同步缓存中的用户登录信息
+     */
+    public static void syncLoginUser() {
+        Long loginUserId = Long.valueOf((String) StpUtil.getLoginId());
+        User userInDatabase = AUTH_SERVICE.getById(loginUserId);
+        if (Objects.isNull(userInDatabase)) {
+            StpUtil.logout(loginUserId);
+            throw new CustomizeReturnException(ReturnCode.ACCESS_UNAUTHORIZED);
+        }
+        if (Objects.equals(userInDatabase.getState(), Constants.USER_DISABLE_STATE)) {
+            throw new CustomizeReturnException(ReturnCode.USER_ACCOUNT_BANNED);
+        }
+        AuthLoginVo loginUser = new AuthLoginVo();
+        BeanUtils.copyProperties(userInDatabase, loginUser);
+        File avatarFile = FILE_SERVICE.getById(loginUser.getAvatarId());
+        loginUser.setAvatar(Objects.isNull(avatarFile) ? null : avatarFile.getUrl());
+        SaHolder.getStorage()
+                .set(Constants.LOGIN_USER_KEY, loginUser);
+        StpUtil.getSession().set(Constants.LOGIN_USER_KEY, loginUser);
+    }
 
     /**
      * 从缓存中获取登录用户信息

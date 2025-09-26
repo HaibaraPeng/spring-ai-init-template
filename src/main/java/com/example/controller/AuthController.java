@@ -12,12 +12,10 @@ import com.example.model.vo.auth.AuthLoginVo;
 import com.example.service.AuthService;
 import com.example.utils.satoken.LoginUtils;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Peng
@@ -109,18 +107,18 @@ public class AuthController {
 //        authService.getEmailCode(authEmailCodeDto);
 //        return R.ok("获取验证码成功，请前往邮箱查收");
 //    }
-//
-//    /**
-//     * 获取登录信息
-//     *
-//     * @return 返回登录用户信息结果
-//     */
-//    @GetMapping("/info")
-//    public R<AuthLoginVo> info() {
-//        LoginUtils.syncLoginUser();
-//        return R.ok(LoginUtils.getLoginUserOrThrow());
-//    }
-//
+
+    /**
+     * 获取登录信息
+     *
+     * @return 返回登录用户信息结果
+     */
+    @GetMapping("/info")
+    public R<AuthLoginVo> info() {
+        LoginUtils.syncLoginUser();
+        return R.ok(LoginUtils.getLoginUserOrThrow());
+    }
+
 //    /**
 //     * 退出
 //     *
