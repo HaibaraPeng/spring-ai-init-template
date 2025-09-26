@@ -6,9 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -20,8 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@EsMapperScan(value = "top.sharehome.springbootinittemplate.elasticsearch.mapper")
 //@EnableScheduling
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
-//@EnableConfigurationProperties
-//@ConfigurationPropertiesScan(basePackages = {"top.sharehome.springbootinittemplate.config.**"})
+@EnableConfigurationProperties
+@ConfigurationPropertiesScan(basePackages = {"com.example.config.**"})
 @EnableTransactionManagement
 //@ServletComponentScan(basePackages = {"top.sharehome.springbootinittemplate.config.**"})
 public class DemoApplication {

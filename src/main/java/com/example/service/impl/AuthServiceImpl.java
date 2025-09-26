@@ -10,21 +10,21 @@ import com.example.exception.customize.CustomizeReturnException;
 import com.example.mapper.FileMapper;
 import com.example.mapper.UserMapper;
 import com.example.model.dto.auth.AuthLoginDto;
+import com.example.model.dto.auth.AuthRegisterDto;
 import com.example.model.entity.File;
 import com.example.model.entity.User;
 import com.example.model.vo.auth.AuthLoginVo;
 import com.example.service.AuthService;
+import com.example.utils.email.EmailUtils;
+import com.example.utils.redisson.KeyPrefixConstants;
+import com.example.utils.redisson.cache.CacheUtils;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
@@ -42,56 +42,57 @@ public class AuthServiceImpl extends ServiceImpl<UserMapper, User> implements Au
     @Resource
     private FileMapper fileMapper;
 
-//    @Value(value = "${spring.application.name}")
-//    private String applicationName;
-//
-//    @Value(value = "${server.domain}")
-//    private String domain;
-//
-//    @Value(value = "${server.port}")
-//    private Integer port;
-//
-//    @Value(value = "${server.servlet.context-path}")
-//    private String contextPath;
-//
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void register(AuthRegisterDto authRegisterDto) {
-//        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        userLambdaQueryWrapper.eq(User::getAccount, authRegisterDto.getAccount());
-//        // 判断用户账户是否已经存在
-//        if (userMapper.exists(userLambdaQueryWrapper)) {
-//            throw new CustomizeReturnException(ReturnCode.USERNAME_ALREADY_EXISTS);
-//        }
-//        // 插入新用户数据
-//        User user = new User()
-//                .setAvatarId(Constants.NULL_ID)
-//                .setAccount(authRegisterDto.getAccount())
-//                // 注册之后，默认名称是账号
-//                .setName(authRegisterDto.getAccount())
-//                .setPassword(authRegisterDto.getPassword())
-//                .setEmail(authRegisterDto.getEmail())
-//                // 在没有激活账号的情况下禁用账号
-//                .setState(1);
-//        int insertResult = userMapper.insert(user);
-//        if (insertResult == 0) {
-//            throw new CustomizeReturnException(ReturnCode.ERRORS_OCCURRED_IN_THE_DATABASE_SERVICE);
-//        }
-//        // 生成一个随机UUID
-//        String uuid = UUID.randomUUID().toString().replace("-", "");
-//        // 生成激活邮件Key值
-//        String activateKey = KeyPrefixConstants.EMAIL_REGISTER_ACTIVATE_PREFIX + uuid;
-//        // 将激活邮件Key设置2小时过期时间
-//        CacheUtils.putString(activateKey, authRegisterDto.getAccount(), Duration.ofHours(2));
-//        // 给新用户邮箱发送一条激活邮件
-//        String subject = "激活账号";
-//        String href = domain + ":" + port + (StringUtils.endsWith(contextPath, "/") ? contextPath : contextPath +
-//        "/") + "auth/activate/" + uuid;
-//        String emailContent = "[" + applicationName + "]-点击<a href=\"" + href + "\"
-//        target=\"_blank\">链接</a>以激活账号，两小时内有效";
-//        EmailUtils.sendWithHtml(authRegisterDto.getEmail(), subject, emailContent);
-//    }
-//
+    @Value(value = "${spring.application.name}")
+    private String applicationName;
+
+    @Value(value = "${server.domain}")
+    private String domain;
+
+    @Value(value = "${server.port}")
+    private Integer port;
+
+    @Value(value = "${server.servlet.context-path}")
+    private String contextPath;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void register(AuthRegisterDto authRegisterDto) {
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(User::getAccount, authRegisterDto.getAccount());
+        // 判断用户账户是否已经存在
+        if (userMapper.exists(userLambdaQueryWrapper)) {
+            throw new CustomizeReturnException(ReturnCode.USERNAME_ALREADY_EXISTS);
+        }
+        // 插入新用户数据
+        User user = new User()
+                .setAvatarId(Constants.NULL_ID)
+                .setAccount(authRegisterDto.getAccount())
+                // 注册之后，默认名称是账号
+                .setName(authRegisterDto.getAccount())
+                .setPassword(authRegisterDto.getPassword())
+                .setEmail(authRegisterDto.getEmail())
+                // 在没有激活账号的情况下禁用账号
+                .setState(1);
+        int insertResult = userMapper.insert(user);
+        if (insertResult == 0) {
+            throw new CustomizeReturnException(ReturnCode.ERRORS_OCCURRED_IN_THE_DATABASE_SERVICE);
+        }
+        // 生成一个随机UUID
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        // 生成激活邮件Key值
+        String activateKey = KeyPrefixConstants.EMAIL_REGISTER_ACTIVATE_PREFIX + uuid;
+        // 将激活邮件Key设置2小时过期时间
+        CacheUtils.putString(activateKey, authRegisterDto.getAccount(), Duration.ofHours(2));
+        // 给新用户邮箱发送一条激活邮件
+        String subject = "激活账号";
+        String href =
+                domain + ":" + port + (StringUtils.endsWith(contextPath, "/") ? contextPath : contextPath + "/") +
+                        "auth/activate/" + uuid;
+        String emailContent = "[" + applicationName + "]-点击<a href=\"" + href + "\" target=\"_blank\">链接</a" +
+                ">以激活账号，两小时内有效";
+        EmailUtils.sendWithHtml(authRegisterDto.getEmail(), subject, emailContent);
+    }
+
 //    @Override
 //    @Transactional(rollbackFor = Exception.class)
 //    public void activate(String uuid, HttpServletResponse response) {

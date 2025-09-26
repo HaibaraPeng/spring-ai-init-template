@@ -2,12 +2,16 @@ package com.example.controller;
 
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import org.apache.commons.lang3.StringUtils;
 import com.example.common.base.R;
+import com.example.common.base.ReturnCode;
 import com.example.common.validate.PostGroup;
 import com.example.config.captcha.annotation.EnableCaptcha;
 import com.example.config.log.annotation.ControllerLog;
 import com.example.config.log.enums.Operator;
+import com.example.exception.customize.CustomizeReturnException;
 import com.example.model.dto.auth.AuthLoginDto;
+import com.example.model.dto.auth.AuthRegisterDto;
 import com.example.model.vo.auth.AuthLoginVo;
 import com.example.service.AuthService;
 import com.example.utils.satoken.LoginUtils;
@@ -29,23 +33,24 @@ public class AuthController {
     @Resource
     private AuthService authService;
 
-//    /**
-//     * 注册
-//     * todo 模板默认不使用该接口，因为该模板中真实增加用户的接口应该是管理员增加用户的方式，但业务层面上保留该接口，
-//     *
-//     * @param authRegisterDto 用户注册Dto类
-//     * @return 返回注册结果
-//     */
-//    @PostMapping("/register")
-//    @ControllerLog(description = "用户注册", operator = Operator.OTHER)
-//    public R<String> register(@RequestBody @Validated({PostGroup.class}) AuthRegisterDto authRegisterDto) {
-//        if (!StringUtils.equals(authRegisterDto.getPassword(), authRegisterDto.getCheckPassword())) {
-//            throw new CustomizeReturnException(ReturnCode.PASSWORD_AND_SECONDARY_PASSWORD_NOT_SAME);
-//        }
-//        authService.register(authRegisterDto);
-//        return R.ok("注册成功，请前往邮箱激活账号");
-//    }
-//
+    /**
+     * `
+     * 注册
+     * todo 模板默认不使用该接口，因为该模板中真实增加用户的接口应该是管理员增加用户的方式，但业务层面上保留该接口，
+     *
+     * @param authRegisterDto 用户注册Dto类
+     * @return 返回注册结果
+     */
+    @PostMapping("/register")
+    @ControllerLog(description = "用户注册", operator = Operator.OTHER)
+    public R<String> register(@RequestBody @Validated({PostGroup.class}) AuthRegisterDto authRegisterDto) {
+        if (!StringUtils.equals(authRegisterDto.getPassword(), authRegisterDto.getCheckPassword())) {
+            throw new CustomizeReturnException(ReturnCode.PASSWORD_AND_SECONDARY_PASSWORD_NOT_SAME);
+        }
+        authService.register(authRegisterDto);
+        return R.ok("注册成功，请前往邮箱激活账号");
+    }
+
 //    /**
 //     * 注册后激活账号
 //     * todo 模板默认不使用该接口，因为该模板中真实增加用户的接口应该是管理员增加用户的方式，但业务层面上保留该接口，

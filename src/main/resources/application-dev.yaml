@@ -189,22 +189,22 @@ spring:
 #  # 不允许bean的定义被覆盖，保证系统稳定，但是某些情况下可能需要反其道而行之，这个由开发者自己定义，默认关闭
 #  main:
 #    allow-bean-definition-overriding: false
-#  # 邮件配置
-#  mail:
-#    # todo 是否开启邮件功能（这里的邮件功能指的是模板内增强的邮件工具，预先关闭）
-#    enable: false
-#    # 发送邮件服务器主机
-#    host: smtp.163.com
-#    # 发送邮件服务器端口
-#    port: 25
-#    # 发送邮件的邮箱地址
-#    username: xxxxxxxx@163.com
-#    # 发送邮件的邮箱验证密码或者授权码
-#    password: xxxxxxxx
-#    # 邮件默认编码
-#    default-encoding: UTF-8
-#    # 邮箱通讯协议
-#    protocol: smtp
+  # 邮件配置
+  mail:
+    # todo 是否开启邮件功能（这里的邮件功能指的是模板内增强的邮件工具，预先关闭）
+    enable: true
+    # 发送邮件服务器主机
+    host: smtp.163.com
+    # 发送邮件服务器端口
+    port: 25
+    # 发送邮件的邮箱地址
+    username: xxxxxxxx@163.com
+    # 发送邮件的邮箱验证密码或者授权码
+    password: xxxxxxxx
+    # 邮件默认编码
+    default-encoding: UTF-8
+    # 邮箱通讯协议
+    protocol: smtp
 #  # RabbitMQ配置
 #  rabbitmq:
 #    # todo 是否开启RabbitMQ（预先关闭）
