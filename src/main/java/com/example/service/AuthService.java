@@ -6,6 +6,7 @@ import com.example.model.dto.auth.AuthLoginDto;
 import com.example.model.dto.auth.AuthRegisterDto;
 import com.example.model.entity.User;
 import com.example.model.vo.auth.AuthLoginVo;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Peng
@@ -20,12 +21,12 @@ public interface AuthService extends IService<User> {
      */
     void register(AuthRegisterDto authRegisterDto);
 
-//    /**
-//     * 注册后激活账号
-//     *
-//     * @param uuid 随机验证码
-//     */
-//    void activate(String uuid, HttpServletResponse response);
+    /**
+     * 注册后激活账号
+     *
+     * @param uuid 随机验证码
+     */
+    void activate(String uuid, HttpServletResponse response);
 
     /**
      * 登录

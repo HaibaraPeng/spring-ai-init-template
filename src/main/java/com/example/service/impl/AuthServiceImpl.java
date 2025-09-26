@@ -19,12 +19,15 @@ import com.example.utils.email.EmailUtils;
 import com.example.utils.redisson.KeyPrefixConstants;
 import com.example.utils.redisson.cache.CacheUtils;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.UUID;
@@ -93,42 +96,42 @@ public class AuthServiceImpl extends ServiceImpl<UserMapper, User> implements Au
         EmailUtils.sendWithHtml(authRegisterDto.getEmail(), subject, emailContent);
     }
 
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void activate(String uuid, HttpServletResponse response) {
-//        response.setContentType("text/plain;charset=UTF-8");
-//        try (PrintWriter writer = response.getWriter()) {
-//            String activateKey = KeyPrefixConstants.EMAIL_REGISTER_ACTIVATE_PREFIX + uuid;
-//            String account = CacheUtils.getString(activateKey);
-//            if (Objects.isNull(account)) {
-//                writer.flush();
-//                writer.write("验证码已过期或者无效");
-//                return;
-//            }
-//            LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//            userLambdaQueryWrapper
-//                    .eq(User::getAccount, account)
-//                    .last("limit 1");
-//            User userInDatabase = userMapper.selectOne(userLambdaQueryWrapper);
-//            if (Objects.isNull(userInDatabase)) {
-//                writer.flush();
-//                writer.write("用户账号不存在");
-//                return;
-//            }
-//            userInDatabase.setState(0);
-//            int updateResult = userMapper.updateById(userInDatabase);
-//            if (updateResult == 0) {
-//                writer.flush();
-//                writer.write("数据库服务出错");
-//                return;
-//            }
-//            CacheUtils.deleteString(activateKey);
-//            writer.flush();
-//            writer.write("激活账号成功，请登录");
-//        } catch (IOException e) {
-//            throw new CustomizeReturnException(ReturnCode.FAIL, "输出流异常");
-//        }
-//    }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void activate(String uuid, HttpServletResponse response) {
+        response.setContentType("text/plain;charset=UTF-8");
+        try (PrintWriter writer = response.getWriter()) {
+            String activateKey = KeyPrefixConstants.EMAIL_REGISTER_ACTIVATE_PREFIX + uuid;
+            String account = CacheUtils.getString(activateKey);
+            if (Objects.isNull(account)) {
+                writer.flush();
+                writer.write("验证码已过期或者无效");
+                return;
+            }
+            LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+            userLambdaQueryWrapper
+                    .eq(User::getAccount, account)
+                    .last("limit 1");
+            User userInDatabase = userMapper.selectOne(userLambdaQueryWrapper);
+            if (Objects.isNull(userInDatabase)) {
+                writer.flush();
+                writer.write("用户账号不存在");
+                return;
+            }
+            userInDatabase.setState(0);
+            int updateResult = userMapper.updateById(userInDatabase);
+            if (updateResult == 0) {
+                writer.flush();
+                writer.write("数据库服务出错");
+                return;
+            }
+            CacheUtils.deleteString(activateKey);
+            writer.flush();
+            writer.write("激活账号成功，请登录");
+        } catch (IOException e) {
+            throw new CustomizeReturnException(ReturnCode.FAIL, "输出流异常");
+        }
+    }
 
     @Override
     @Transactional(noRollbackFor = CustomizeReturnException.class, rollbackFor = Exception.class)
