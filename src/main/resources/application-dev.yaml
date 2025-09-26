@@ -105,18 +105,18 @@ server:
 #      exposure:
 #        include: '*'
 #
-## 公共配置文件
-#spring:
-#  # 项目前置工作 ---- 可自定义
-#  application:
-#    # 定义项目名称
-#    name: spring-boot-init-template
-#  # 项目启动 Banner 设置
-#  banner:
-#    # Banner 编码
-#    charset: UTF-8
-#    # Banner 路径
-#    location: classpath:banner.txt
+# 公共配置文件
+spring:
+  # 项目前置工作 ---- 可自定义
+  application:
+    # 定义项目名称
+    name: spring-boot-init-template
+  # 项目启动 Banner 设置
+  banner:
+    # Banner 编码
+    charset: UTF-8
+    # Banner 路径
+    location: classpath:banner.txt
 #  # 配置SpringBootAdmin
 #  boot:
 #    admin:
@@ -283,18 +283,18 @@ server:
 #      # 如果不需要用户名和密码，即：uri: mongodb://主机地址:主机端口/默认数据库?authSource=admin&maxPoolSize=50&connectTimeoutMS=30000
 #      # 如果需要用户名和密码，即：uri: mongodb://用户名:密码@主机地址:主机端口/默认数据库?authSource=admin&maxPoolSize=50&connectTimeoutMS=30000
 #      uri: mongodb://root:123456@127.0.0.1:27017/init_db?authSource=admin&maxPoolSize=50&connectTimeoutMS=30000
-#  # 数据源配置
-#  datasource:
-#    # 多数据源
-#    dynamic:
-#      # 默认master数据源
-#      primary: mysql
-#      datasource:
-#        # ShardingSphere MySQL数据源
-#        mysql:
-#          driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-#          url: jdbc:shardingsphere:classpath:mysql/mysql-dev.yaml
-#          type: com.zaxxer.hikari.HikariDataSource
+  # 数据源配置
+  datasource:
+    # 多数据源
+    dynamic:
+      # 默认master数据源
+      primary: mysql
+      datasource:
+        # ShardingSphere MySQL数据源
+        mysql:
+          driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+          url: jdbc:shardingsphere:classpath:mysql/mysql-dev.yaml
+          type: com.zaxxer.hikari.HikariDataSource
 #        # PostgreSQL向量数据源
 #        #postgresql-embed:
 #        #  driver-class-name: org.postgresql.Driver
