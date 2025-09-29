@@ -165,14 +165,14 @@ public class LoginUtils {
 //    public static boolean isLogin() {
 //        return StpUtil.isLogin();
 //    }
-//
-//    /**
-//     * 根据用户LoginId指定用户退出
-//     */
-//    public static void logout(Object loginId) {
-//        StpUtil.logout(loginId);
-//    }
-//
+
+    /**
+     * 根据用户LoginId指定用户退出
+     */
+    public static void logout(Object loginId) {
+        StpUtil.logout(loginId);
+    }
+
 //    /**
 //     * 用户退出
 //     */

@@ -9,8 +9,10 @@ import com.example.common.base.ReturnCode;
 import com.example.exception.customize.CustomizeReturnException;
 import com.example.mapper.FileMapper;
 import com.example.mapper.UserMapper;
+import com.example.model.dto.auth.AuthEmailCodeDto;
 import com.example.model.dto.auth.AuthLoginDto;
 import com.example.model.dto.auth.AuthRegisterDto;
+import com.example.model.dto.auth.AuthRetrievePasswordDto;
 import com.example.model.entity.File;
 import com.example.model.entity.User;
 import com.example.model.vo.auth.AuthLoginVo;
@@ -18,8 +20,10 @@ import com.example.service.AuthService;
 import com.example.utils.email.EmailUtils;
 import com.example.utils.redisson.KeyPrefixConstants;
 import com.example.utils.redisson.cache.CacheUtils;
+import com.example.utils.satoken.LoginUtils;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -198,79 +202,79 @@ public class AuthServiceImpl extends ServiceImpl<UserMapper, User> implements Au
         return authLoginVo;
     }
 
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void checkEmailCode(AuthRetrievePasswordDto authRetrievePasswordDto) {
-//        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        userLambdaQueryWrapper
-//                .eq(User::getAccount, authRetrievePasswordDto.getAccount())
-//                .eq(User::getEmail, authRetrievePasswordDto.getEmail())
-//                .last("limit 1");
-//        User userInDatabase = userMapper.selectOne(userLambdaQueryWrapper);
-//        // 判断数据库中是否存在该登录用户的数据
-//        if (Objects.isNull(userInDatabase)) {
-//            throw new CustomizeReturnException(ReturnCode.ACCOUNT_AND_EMAIL_DO_NOT_MATCH);
-//        }
-//        // 判断该用户是否被禁用（保证管理员能不受限制找回密码）
-//        if (Objects.equals(userInDatabase.getState(), Constants.USER_DISABLE_STATE) && !Objects.equals
-//        (userInDatabase.getRole(), Constants.ROLE_ADMIN)) {
-//            throw new CustomizeReturnException(ReturnCode.USER_ACCOUNT_BANNED);
-//        }
-//        String emailKey = KeyPrefixConstants.EMAIL_RETRIEVE_PASSWORD_PREFIX + userInDatabase.getId();
-//        String code = CacheUtils.getString(emailKey);
-//        // 判断邮箱验证码是否过期
-//        if (Objects.nonNull(code)) {
-//            if (Objects.equals(code, authRetrievePasswordDto.getPasswordCode())) {
-//                LoginUtils.logout(userInDatabase.getId());
-//                LambdaUpdateWrapper<User> userLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-//                userLambdaUpdateWrapper
-//                        .set(User::getPassword, authRetrievePasswordDto.getNewPassword())
-//                        .set(User::getLoginNum, 0)
-//                        // 如果是管理员找回密码，还需要将状态改为正常
-//                        .set(Objects.equals(userInDatabase.getRole(), Constants.ROLE_ADMIN), User::getState,
-//                        Constants.USER_ENABLE_STATE)
-//                        .eq(User::getId, userInDatabase.getId());
-//                userMapper.update(userLambdaUpdateWrapper);
-//                CacheUtils.deleteString(emailKey);
-//            } else {
-//                throw new CustomizeReturnException(ReturnCode.CAPTCHA_IS_INCORRECT);
-//            }
-//        } else {
-//            throw new CustomizeReturnException(ReturnCode.CAPTCHA_HAS_EXPIRED);
-//        }
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true, rollbackFor = Exception.class)
-//    public void getEmailCode(AuthEmailCodeDto authEmailCodeDto) {
-//        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-//        userLambdaQueryWrapper
-//                .eq(User::getAccount, authEmailCodeDto.getAccount())
-//                .eq(User::getEmail, authEmailCodeDto.getEmail())
-//                .last("limit 1");
-//        User userInDatabase = userMapper.selectOne(userLambdaQueryWrapper);
-//        // 判断数据库中是否存在该登录用户的数据
-//        if (Objects.isNull(userInDatabase)) {
-//            throw new CustomizeReturnException(ReturnCode.ACCOUNT_AND_EMAIL_DO_NOT_MATCH);
-//        }
-//        // 判断该用户是否被禁用（保证管理员能不受限制找回密码）
-//        if (Objects.equals(userInDatabase.getState(), Constants.USER_DISABLE_STATE) && !Objects.equals
-//        (userInDatabase.getRole(), Constants.ROLE_ADMIN)) {
-//            throw new CustomizeReturnException(ReturnCode.USER_ACCOUNT_BANNED);
-//        }
-//        String emailKey = KeyPrefixConstants.EMAIL_RETRIEVE_PASSWORD_PREFIX + userInDatabase.getId();
-//        // 随机六位数字验证码
-//        String code = RandomStringUtils.secure().nextNumeric(6);
-//        Long expired = CacheUtils.getStringExpired(emailKey);
-//        // 防止用户快速多次请求邮箱验证码，只要验证码没有过期，就不能二次请求
-//        if (Objects.equals(expired, 0L)) {
-//            String subject = "找回密码";
-//            String emailContent = "[" + applicationName + "]-找回密码验证码为 <b>" + code + "</b> ,五分钟后失效。";
-//            EmailUtils.sendWithHtml(userInDatabase.getEmail(), subject, emailContent);
-//            CacheUtils.putString(emailKey, code, Duration.ofMinutes(5));
-//        } else {
-//            throw new CustomizeReturnException(ReturnCode.TOO_MANY_REQUESTS, "请在" + expired + "秒后重试");
-//        }
-//    }
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void checkEmailCode(AuthRetrievePasswordDto authRetrievePasswordDto) {
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper
+                .eq(User::getAccount, authRetrievePasswordDto.getAccount())
+                .eq(User::getEmail, authRetrievePasswordDto.getEmail())
+                .last("limit 1");
+        User userInDatabase = userMapper.selectOne(userLambdaQueryWrapper);
+        // 判断数据库中是否存在该登录用户的数据
+        if (Objects.isNull(userInDatabase)) {
+            throw new CustomizeReturnException(ReturnCode.ACCOUNT_AND_EMAIL_DO_NOT_MATCH);
+        }
+        // 判断该用户是否被禁用（保证管理员能不受限制找回密码）
+        if (Objects.equals(userInDatabase.getState(), Constants.USER_DISABLE_STATE) && !Objects.equals
+                (userInDatabase.getRole(), Constants.ROLE_ADMIN)) {
+            throw new CustomizeReturnException(ReturnCode.USER_ACCOUNT_BANNED);
+        }
+        String emailKey = KeyPrefixConstants.EMAIL_RETRIEVE_PASSWORD_PREFIX + userInDatabase.getId();
+        String code = CacheUtils.getString(emailKey);
+        // 判断邮箱验证码是否过期
+        if (Objects.nonNull(code)) {
+            if (Objects.equals(code, authRetrievePasswordDto.getPasswordCode())) {
+                LoginUtils.logout(userInDatabase.getId());
+                LambdaUpdateWrapper<User> userLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+                userLambdaUpdateWrapper
+                        .set(User::getPassword, authRetrievePasswordDto.getNewPassword())
+                        .set(User::getLoginNum, 0)
+                        // 如果是管理员找回密码，还需要将状态改为正常
+                        .set(Objects.equals(userInDatabase.getRole(), Constants.ROLE_ADMIN), User::getState,
+                                Constants.USER_ENABLE_STATE)
+                        .eq(User::getId, userInDatabase.getId());
+                userMapper.update(userLambdaUpdateWrapper);
+                CacheUtils.deleteString(emailKey);
+            } else {
+                throw new CustomizeReturnException(ReturnCode.CAPTCHA_IS_INCORRECT);
+            }
+        } else {
+            throw new CustomizeReturnException(ReturnCode.CAPTCHA_HAS_EXPIRED);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true, rollbackFor = Exception.class)
+    public void getEmailCode(AuthEmailCodeDto authEmailCodeDto) {
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper
+                .eq(User::getAccount, authEmailCodeDto.getAccount())
+                .eq(User::getEmail, authEmailCodeDto.getEmail())
+                .last("limit 1");
+        User userInDatabase = userMapper.selectOne(userLambdaQueryWrapper);
+        // 判断数据库中是否存在该登录用户的数据
+        if (Objects.isNull(userInDatabase)) {
+            throw new CustomizeReturnException(ReturnCode.ACCOUNT_AND_EMAIL_DO_NOT_MATCH);
+        }
+        // 判断该用户是否被禁用（保证管理员能不受限制找回密码）
+        if (Objects.equals(userInDatabase.getState(), Constants.USER_DISABLE_STATE) && !Objects.equals
+        (userInDatabase.getRole(), Constants.ROLE_ADMIN)) {
+            throw new CustomizeReturnException(ReturnCode.USER_ACCOUNT_BANNED);
+        }
+        String emailKey = KeyPrefixConstants.EMAIL_RETRIEVE_PASSWORD_PREFIX + userInDatabase.getId();
+        // 随机六位数字验证码
+        String code = RandomStringUtils.secure().nextNumeric(6);
+        Long expired = CacheUtils.getStringExpired(emailKey);
+        // 防止用户快速多次请求邮箱验证码，只要验证码没有过期，就不能二次请求
+        if (Objects.equals(expired, 0L)) {
+            String subject = "找回密码";
+            String emailContent = "[" + applicationName + "]-找回密码验证码为 <b>" + code + "</b> ,五分钟后失效。";
+            EmailUtils.sendWithHtml(userInDatabase.getEmail(), subject, emailContent);
+            CacheUtils.putString(emailKey, code, Duration.ofMinutes(5));
+        } else {
+            throw new CustomizeReturnException(ReturnCode.TOO_MANY_REQUESTS, "请在" + expired + "秒后重试");
+        }
+    }
 
 }

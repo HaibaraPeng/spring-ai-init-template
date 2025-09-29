@@ -2,8 +2,10 @@ package com.example.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.model.dto.auth.AuthEmailCodeDto;
 import com.example.model.dto.auth.AuthLoginDto;
 import com.example.model.dto.auth.AuthRegisterDto;
+import com.example.model.dto.auth.AuthRetrievePasswordDto;
 import com.example.model.entity.User;
 import com.example.model.vo.auth.AuthLoginVo;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,18 +38,18 @@ public interface AuthService extends IService<User> {
      */
     AuthLoginVo login(AuthLoginDto authLoginDto);
 
-//    /**
-//     * 校验邮箱验证码
-//     *
-//     * @param authRetrievePasswordDto 找回密码Dto类
-//     */
-//    void checkEmailCode(AuthRetrievePasswordDto authRetrievePasswordDto);
-//
-//    /**
-//     * 获取邮箱验证码
-//     *
-//     * @param authEmailCodeDto 邮箱验证码Dto类
-//     */
-//    void getEmailCode(AuthEmailCodeDto authEmailCodeDto);
+    /**
+     * 校验邮箱验证码
+     *
+     * @param authRetrievePasswordDto 找回密码Dto类
+     */
+    void checkEmailCode(AuthRetrievePasswordDto authRetrievePasswordDto);
+
+    /**
+     * 获取邮箱验证码
+     *
+     * @param authEmailCodeDto 邮箱验证码Dto类
+     */
+    void getEmailCode(AuthEmailCodeDto authEmailCodeDto);
 
 }

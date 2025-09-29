@@ -367,52 +367,52 @@ redisson:
   # Redis单机版本
   single-server-config:
     # todo 是否启动单机Redis（Redisson）缓存（预先关闭）
-    enable-single: false
-  #    # 单机地址（一定要在redis协议下）
-  #    address: redis://127.0.0.1:6379
-  #    # 数据库索引
-  #    database: 1
-  #    # 密码（考虑是否需要密码）
-  #    #password: 123456
-  #    # 命令等待超时，单位：毫秒
-  #    timeout: 3000
-  #    # 发布和订阅连接池大小
-  #    subscription-connection-pool-size: 25
-  #    # 最小空闲连接数
-  #    connection-minimum-idle-size: 8
-  #    # 连接池大小
-  #    connection-pool-size: 32
-  #    # 连接空闲超时，单位：毫秒
-  #    idle-connection-timeout: 10000
+    enable-single: true
+    # 单机地址（一定要在redis协议下）
+    address: redis://127.0.0.1:6379
+    # 数据库索引
+    database: 1
+    # 密码（考虑是否需要密码）
+    #password: 123456
+    # 命令等待超时，单位：毫秒
+    timeout: 3000
+    # 发布和订阅连接池大小
+    subscription-connection-pool-size: 25
+    # 最小空闲连接数
+    connection-minimum-idle-size: 8
+    # 连接池大小
+    connection-pool-size: 32
+    # 连接空闲超时，单位：毫秒
+    idle-connection-timeout: 10000
   # Redis集群版本
   cluster-servers-config:
     # todo 是否启动集群Redis（Redisson）缓存（预先关闭）
     enable-cluster: false
-#    # Redis集群节点（一定要在Redis协议下）
-#    node-addresses:
-#      - redis://127.0.0.1:6379
-#      - redis://127.0.0.1:6380
-#      - redis://127.0.0.1:6381
-#      - redis://127.0.0.1:6382
-#      - redis://127.0.0.1:6383
-#      - redis://127.0.0.1:6384
-#    # 密码（考虑是否需要密码）
-#    #password: 123456
-#    # master最小空闲连接数
-#    master-connection-minimum-idleSize: 16
-#    # master连接池大小
-#    master-connection-pool-size: 32
-#    # slave最小空闲连接数
-#    slave-connection-minimum-idle-size: 16
-#    # slave连接池大小
-#    slave-connection-pool-size: 32
-#    # 连接空闲超时，单位：毫秒
-#    idle-connection-timeout: 10000
-#    # 命令等待超时，单位：毫秒
-#    timeout: 3000
-#    # 发布和订阅连接池大小
-#    subscription-connection-pool-size: 25
-#
+    # Redis集群节点（一定要在Redis协议下）
+    node-addresses:
+      - redis://127.0.0.1:6379
+      - redis://127.0.0.1:6380
+      - redis://127.0.0.1:6381
+      - redis://127.0.0.1:6382
+      - redis://127.0.0.1:6383
+      - redis://127.0.0.1:6384
+    # 密码（考虑是否需要密码）
+    #password: 123456
+    # master最小空闲连接数
+    master-connection-minimum-idleSize: 16
+    # master连接池大小
+    master-connection-pool-size: 32
+    # slave最小空闲连接数
+    slave-connection-minimum-idle-size: 16
+    # slave连接池大小
+    slave-connection-pool-size: 32
+    # 连接空闲超时，单位：毫秒
+    idle-connection-timeout: 10000
+    # 命令等待超时，单位：毫秒
+    timeout: 3000
+    # 发布和订阅连接池大小
+    subscription-connection-pool-size: 25
+
 ## Caffeine本地缓存配置
 #caffeine:
 #  # todo 是否启动（预先关闭）

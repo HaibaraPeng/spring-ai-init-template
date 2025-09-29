@@ -6,11 +6,15 @@ import com.example.common.base.R;
 import com.example.common.base.ReturnCode;
 import com.example.common.validate.PostGroup;
 import com.example.config.captcha.annotation.EnableCaptcha;
+import com.example.config.idempotent.annotation.RateLimit;
+import com.example.config.idempotent.enums.ScopeType;
 import com.example.config.log.annotation.ControllerLog;
 import com.example.config.log.enums.Operator;
 import com.example.exception.customize.CustomizeReturnException;
+import com.example.model.dto.auth.AuthEmailCodeDto;
 import com.example.model.dto.auth.AuthLoginDto;
 import com.example.model.dto.auth.AuthRegisterDto;
+import com.example.model.dto.auth.AuthRetrievePasswordDto;
 import com.example.model.vo.auth.AuthLoginVo;
 import com.example.service.AuthService;
 import com.example.utils.satoken.LoginUtils;
@@ -21,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Peng
@@ -81,38 +86,38 @@ public class AuthController {
         return R.okWithToken("登录成功", loginUser);
     }
 
-//    /**
-//     * 通过邮箱验证找回密码
-//     * todo 模板默认不使用该接口，因为该模板中真实找回用户密码的接口应该是管理员修改用户密码的方式，但业务层面上保留该接口，
-//     *
-//     * @return 返回找回结果
-//     */
-//    @PostMapping("/check/email/code")
-//    @ControllerLog(description = "用户通过邮箱验证找回密码", operator = Operator.OTHER)
-//    public R<String> checkEmailCode(@RequestBody @Validated({PostGroup.class}) AuthRetrievePasswordDto
-//    authRetrievePasswordDto) {
-//        if (!StringUtils.equals(authRetrievePasswordDto.getNewPassword(), authRetrievePasswordDto
-//        .getCheckNewPassword())) {
-//            throw new CustomizeReturnException(ReturnCode.PASSWORD_AND_SECONDARY_PASSWORD_NOT_SAME);
-//        }
-//        authService.checkEmailCode(authRetrievePasswordDto);
-//        return R.ok("找回密码成功，请用新密码进行登录");
-//    }
-//
-//    /**
-//     * 获取邮箱验证码
-//     * todo 模板默认不使用该接口，因为该模板中真实找回用户密码的接口应该是管理员修改用户密码的方式，但业务层面上保留该接口，
-//     *
-//     * @return 返回找回结果
-//     */
-//    @PostMapping("/email/code")
-//    @ControllerLog(description = "用户获取邮箱验证码", operator = Operator.QUERY)
-//    @RateLimit(time = 5, timeUnit = TimeUnit.MINUTES, rate = 1, permit = 1, scopeType = ScopeType.PERSONAL, message
-//    = "5分钟内不能重复获取邮箱验证码")
-//    public R<String> getEmailCode(@RequestBody @Validated({PostGroup.class}) AuthEmailCodeDto authEmailCodeDto) {
-//        authService.getEmailCode(authEmailCodeDto);
-//        return R.ok("获取验证码成功，请前往邮箱查收");
-//    }
+    /**
+     * 通过邮箱验证找回密码
+     * todo 模板默认不使用该接口，因为该模板中真实找回用户密码的接口应该是管理员修改用户密码的方式，但业务层面上保留该接口，
+     *
+     * @return 返回找回结果
+     */
+    @PostMapping("/check/email/code")
+    @ControllerLog(description = "用户通过邮箱验证找回密码", operator = Operator.OTHER)
+    public R<String> checkEmailCode(@RequestBody @Validated({PostGroup.class}) AuthRetrievePasswordDto
+                                            authRetrievePasswordDto) {
+        if (!StringUtils.equals(authRetrievePasswordDto.getNewPassword(), authRetrievePasswordDto
+                .getCheckNewPassword())) {
+            throw new CustomizeReturnException(ReturnCode.PASSWORD_AND_SECONDARY_PASSWORD_NOT_SAME);
+        }
+        authService.checkEmailCode(authRetrievePasswordDto);
+        return R.ok("找回密码成功，请用新密码进行登录");
+    }
+
+    /**
+     * 获取邮箱验证码
+     * todo 模板默认不使用该接口，因为该模板中真实找回用户密码的接口应该是管理员修改用户密码的方式，但业务层面上保留该接口，
+     *
+     * @return 返回找回结果
+     */
+    @PostMapping("/email/code")
+    @ControllerLog(description = "用户获取邮箱验证码", operator = Operator.QUERY)
+    @RateLimit(time = 5, timeUnit = TimeUnit.MINUTES, rate = 1, permit = 1, scopeType = ScopeType.PERSONAL, message
+            = "5分钟内不能重复获取邮箱验证码")
+    public R<String> getEmailCode(@RequestBody @Validated({PostGroup.class}) AuthEmailCodeDto authEmailCodeDto) {
+        authService.getEmailCode(authEmailCodeDto);
+        return R.ok("获取验证码成功，请前往邮箱查收");
+    }
 
     /**
      * 获取登录信息
