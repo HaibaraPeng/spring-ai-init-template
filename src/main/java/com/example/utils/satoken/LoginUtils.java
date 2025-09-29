@@ -173,11 +173,11 @@ public class LoginUtils {
         StpUtil.logout(loginId);
     }
 
-//    /**
-//     * 用户退出
-//     */
-//    public static void logout() {
-//        StpUtil.logout();
-//    }
+    /**
+     * 用户退出
+     */
+    public static void logout() {
+        StpUtil.logout();
+    }
 
 }

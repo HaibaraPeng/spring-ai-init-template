@@ -130,16 +130,16 @@ public class AuthController {
         return R.ok(LoginUtils.getLoginUserOrThrow());
     }
 
-//    /**
-//     * 退出
-//     *
-//     * @return 返回退出结果
-//     */
-//    @DeleteMapping("/logout")
-//    @ControllerLog(description = "用户退出", operator = Operator.OTHER)
-//    public R<String> logout() {
-//        LoginUtils.logout();
-//        return R.ok("退出成功");
-//    }
+    /**
+     * 退出
+     *
+     * @return 返回退出结果
+     */
+    @DeleteMapping("/logout")
+    @ControllerLog(description = "用户退出", operator = Operator.OTHER)
+    public R<String> logout() {
+        LoginUtils.logout();
+        return R.ok("退出成功");
+    }
 
 }
