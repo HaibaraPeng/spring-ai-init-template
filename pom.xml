@@ -515,12 +515,12 @@
 <!--            <version>${ali.activation.version}</version>-->
 <!--        </dependency>-->
 
-<!--        &lt;!&ndash; MinIO 依赖配置 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>io.minio</groupId>-->
-<!--            <artifactId>minio</artifactId>-->
-<!--            <version>${minio.version}</version>-->
-<!--        </dependency>-->
+        <!-- MinIO 依赖配置 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
 
 <!--        &lt;!&ndash; Office IO 依赖配置 &ndash;&gt;-->
 <!--        <dependency>-->
@@ -543,11 +543,11 @@
 <!--            <artifactId>poi-tl</artifactId>-->
 <!--            <version>${poi.tl.version}</version>-->
 <!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>cn.idev.excel</groupId>-->
-<!--            <artifactId>fastexcel</artifactId>-->
-<!--            <version>${fast.excel.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>cn.idev.excel</groupId>
+            <artifactId>fastexcel</artifactId>
+            <version>${fast.excel.version}</version>
+        </dependency>
 
 <!--        &lt;!&ndash; PDF 操作依赖配置 &ndash;&gt;-->
 <!--        <dependency>-->

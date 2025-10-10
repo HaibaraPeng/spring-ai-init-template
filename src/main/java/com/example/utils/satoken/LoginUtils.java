@@ -108,21 +108,21 @@ public class LoginUtils {
         return Objects.nonNull(loginUser) ? loginUser.getId() : null;
     }
 
-//    /**
-//     * 从缓存中获取登录用户ID
-//     */
-//    public static Long getLoginUserIdOrThrow() {
-//        return getLoginUserOrThrow().getId();
-//    }
-//
-//    /**
-//     * 从缓存中获取登录用户账户
-//     */
-//    public static String getLoginUserAccount() {
-//        AuthLoginVo loginUser = getLoginUser();
-//        return Objects.nonNull(loginUser) ? loginUser.getAccount() : null;
-//    }
-//
+    /**
+     * 从缓存中获取登录用户ID
+     */
+    public static Long getLoginUserIdOrThrow() {
+        return getLoginUserOrThrow().getId();
+    }
+
+    /**
+     * 从缓存中获取登录用户账户
+     */
+    public static String getLoginUserAccount() {
+        AuthLoginVo loginUser = getLoginUser();
+        return Objects.nonNull(loginUser) ? loginUser.getAccount() : null;
+    }
+
 //    /**
 //     * 从缓存中获取登录用户账户
 //     */

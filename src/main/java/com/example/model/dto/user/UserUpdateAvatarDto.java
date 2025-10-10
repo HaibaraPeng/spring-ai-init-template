@@ -1,0 +1,34 @@
+package com.example.model.dto.user;
+
+
+import com.example.common.validate.PutGroup;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * @author Peng
+ * @date 2025-10-10 16:47
+ */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Accessors(chain = true)
+public class UserUpdateAvatarDto implements Serializable {
+
+    /**
+     * 用户头像文件（大小：1MB；格式：png或jpg）
+     */
+    @NotNull(message = "文件不能为空", groups = {PutGroup.class})
+    private MultipartFile file;
+
+    @Serial
+    private static final long serialVersionUID = 6802990543785064888L;
+
+}
